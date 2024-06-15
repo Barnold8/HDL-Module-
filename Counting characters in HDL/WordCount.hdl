@@ -1,0 +1,13 @@
+CHIP WordCount
+{
+	IN reset, char[8], count;
+	OUT charCount[16], lineCount[16], wordCount[16];
+
+	PARTS:
+
+	CountWords(char=char,reset=reset,count=count,wordCount=wordCount);
+	CountCharacters(char=char,reset=reset,count=count,charCount=charCount);
+	CountLines(char=char,reset=reset,count=count,lineCount=lineCount);
+
+
+}

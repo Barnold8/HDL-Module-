@@ -1,0 +1,96 @@
+KMD
+00000000: EA00001A    ;         B main
+00000004:             ; 
+00000004: 20 67 72 65 ; green_bottles   DEFB " green bottles",0
+00000008: 65 6E 20 62 ; 
+0000000C: 6F 74 74 6C ; 
+00000010: 65 73 00    ; 
+00000013: 20 68 61 6E ; hanging DEFB " hanging on the wall",0
+00000017: 67 69 6E 67 ; 
+0000001B: 20 6F 6E 20 ; 
+0000001F: 74 68 65 20 ; 
+00000023: 77 61 6C 6C ; 
+00000027: 00          ; 
+00000028: 2C 0A 00    ; comma   DEFB ",\n",0
+0000002B: 41 6E 64 20 ; line3   DEFB "And if one green bottle should accidentally fall,\n",0
+0000002F: 69 66 20 6F ; 
+00000033: 6E 65 20 67 ; 
+00000037: 72 65 65 6E ; 
+0000003B: 20 62 6F 74 ; 
+0000003F: 74 6C 65 20 ; 
+00000043: 73 68 6F 75 ; 
+00000047: 6C 64 20 61 ; 
+0000004B: 63 63 69 64 ; 
+0000004F: 65 6E 74 61 ; 
+00000053: 6C 6C 79 20 ; 
+00000057: 66 61 6C 6C ; 
+0000005B: 2C 0A 00    ; 
+0000005E: 54 68 65 72 ; line4   DEFB "There will be ",0
+00000062: 65 20 77 69 ; 
+00000066: 6C 6C 20 62 ; 
+0000006A: 65 20 00    ; 
+0000006D: 2E 0A 00    ; stop    DEFB ".\n",0
+00000070:             ; 
+00000070:             ;         ALIGN
+00000070:             ;         
+00000070:             ; main    
+00000070:             ; 
+00000070: E3A0100A    ;         MOV R1, #10
+00000074:             ; 
+00000074:             ;         ;-----------Print number && decrement -------
+00000074:             ; 
+00000074: E1A00001    ;         MOV R0 , R1
+00000078: EF000004    ;         SWI 4
+0000007C:             ; 
+0000007C: E24F0080    ;         ADR R0, green_bottles
+00000080: EF000003    ;         SWI 3
+00000084: E24F0079    ;         ADR R0, hanging
+00000088: EF000003    ;         SWI 3
+0000008C: E24F006C    ;         ADR R0, comma 
+00000090: EF000003    ;         SWI 3
+00000094:             ; 
+00000094: E1A00001    ;         MOV R0 , R1
+00000098: EF000004    ;         SWI 4
+0000009C:             ; 
+0000009C: E24F00A0    ;         ADR R0, green_bottles
+000000A0: EF000003    ;         SWI 3
+000000A4: E24F0099    ;         ADR R0, hanging
+000000A8: EF000003    ;         SWI 3
+000000AC: E24F008C    ;         ADR R0, comma 
+000000B0: EF000003    ;         SWI 3
+000000B4:             ; 
+000000B4: E2411001    ;         SUB R1, R1, #1 ; decrement
+000000B8:             ; 
+000000B8: E24F0095    ;         ADR R0, line3
+000000BC: EF000003    ;         SWI 3
+000000C0:             ; 
+000000C0: E24F006A    ;         ADR R0, line4
+000000C4: EF000003    ;         SWI 3
+000000C8:             ; 
+000000C8: E1A00001    ;         MOV R0, R1
+000000CC: EF000004    ;         SWI 4
+000000D0:             ; 
+000000D0: E24F00D4    ;         ADR R0, green_bottles
+000000D4: EF000003    ;         SWI 3
+000000D8:             ; 
+000000D8: E24F00CD    ;         ADR R0, hanging
+000000DC: EF000003    ;         SWI 3
+000000E0:             ; 
+000000E0: E24F007B    ;         ADR R0, stop
+000000E4: EF000003    ;         SWI 3
+000000E8:             ;         
+000000E8:             ; 
+000000E8:             ; 
+000000E8:             ;         ;-------------------------------
+000000E8:             ; 
+000000E8: EF000002    ;         SWI 2  
+000000EC:             ; 
+
+Symbol Table: Labels
+: green_bottles                     00000004  Local -- ARM
+: hanging                           00000013  Local -- ARM
+: comma                             00000028  Local -- ARM
+: line3                             0000002B  Local -- ARM
+: line4                             0000005E  Local -- ARM
+: stop                              0000006D  Local -- ARM
+: main                              00000070  Local -- ARM

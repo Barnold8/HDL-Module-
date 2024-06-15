@@ -1,0 +1,24 @@
+CHIP isChar
+{
+
+    IN char[8];
+    OUT out;
+    //Return 1 if char had data, else, return 0 | Do this by trickling any bits down to the output, if theres data, itll find a way to the end
+
+    PARTS: //this chip can be seen on my variation of  "space chips", just without the NOT
+
+	Or(a=char[0], b=char[1], out=OrA);
+	Or(a=char[2], b=char[3], out=OrB);
+	Or(a=char[4], b=char[5], out=OrC);
+	Or(a=char[6], b=char[7], out=OrD);
+
+	//or the subsections
+	Or(a=OrA, b=OrB, out=OrAB);
+	Or(a=OrC, b=OrD, out=orCD);
+
+	//or the final subsections
+	Or(a=OrAB, b=orCD, out=out);
+
+
+
+}

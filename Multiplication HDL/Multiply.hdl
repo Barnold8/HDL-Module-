@@ -1,0 +1,42 @@
+CHIP Multiply
+{
+	IN a[8], b[8], load;
+	OUT out[16], bit;
+
+	PARTS:
+//DONE----
+
+	//Shift bits left as if x10
+	ShiftL8(in=a, out=shiftL, load=load); //<-- this is what we add
+	//---------		//y
+
+	ShiftR8(in=b, out=shiftR, load=load);
+					//add
+	//-------Grab latest LSB
+	ShiftR8(in=b, out[0]=LSB, load=load);
+					//z
+	//------------------
+
+//-------
+
+	//Load what to add into register
+	Mux16(a=false, b=shiftL, sel=LSB, out=muxOut);
+	//--------
+
+	//Reset the register
+
+	Mux16(a=AddOut, b=false, sel=load, out=PosOut);
+
+	//----
+
+	//Input data to register
+	Register(in=PosOut, load=true, out=RegOut,out=out);
+	//-----
+
+	//Add register data and left operand to go to out pin
+	Add16(a=muxOut, b=RegOut, out=AddOut);
+	//-----
+
+	
+
+}

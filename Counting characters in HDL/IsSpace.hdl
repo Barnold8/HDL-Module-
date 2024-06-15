@@ -1,0 +1,30 @@
+CHIP IsSpace
+{
+	IN char[8];
+	OUT space;
+
+	PARTS: // The idea is to NOT the true bits so we can or all the bits in the binary and if there exists a 1,
+		  // then itll travel down to the output, not that and its the boolean of if the char exists 
+
+
+			//This will get lengthy hence why I wanted to try with ands and Nands
+
+	IsNewline(char=char,newline=A); /* This was already checked for in IsNewline.hdl */
+
+	Space9(char=char,out=B);
+	
+	Space13(char=char,out=C);
+
+	Space32(char=char,out=D);
+
+
+	Or(a=A, b=B, out=AB);
+	Or(a=C, b=D, out=CD);
+
+	Or(a=AB, b=CD, out=space);
+
+
+
+
+	/* looking for char ==  9, 10, 13, or 32 */
+}

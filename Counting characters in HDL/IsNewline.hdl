@@ -1,0 +1,32 @@
+CHIP IsNewline
+{
+	IN char[8];
+	OUT newline;
+
+	PARTS: // 1010 <- 10 in binary // The idea is to flip the bits that relate to 10 and then or all the bits. If a true escapes through then its not 10, else, it is
+
+	/* Looking for a newline -- char == 10
+	 */
+
+
+	Not(in=char[1], out=Not1);
+	Not(in=char[3], out=Not3);
+
+
+	//or all the bits into sub section results
+
+	Or(a=char[0], b=Not1, out=OrA);
+	Or(a=char[2], b=Not3, out=OrB);
+	Or(a=char[4], b=char[5], out=OrC);
+	Or(a=char[6], b=char[7], out=OrD);
+
+	//or the subsections
+	Or(a=OrA, b=OrB, out=OrAB);
+	Or(a=OrC, b=OrD, out=orCD);
+
+	//or the final subsections
+	Or(a=OrAB, b=orCD, out=OrEND);
+
+	Not(in=OrEND, out=newline);
+
+}

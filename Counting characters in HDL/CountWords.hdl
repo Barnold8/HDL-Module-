@@ -1,0 +1,89 @@
+CHIP CountWords
+{
+   	IN reset, char[8], count;
+    OUT wordCount[16];
+
+    PARTS:              //If prev char is either NULL or space, and current char is NOT space. Add to counter
+
+    //IsSpace = Current
+    //Register = prev char
+    
+    // Previous Char logic
+    Register(in[0..7]=char, load=true, out[0..7]=PrevChar); //Store char half a cycle after input is given, therefore, its the previous
+    IsSpace(char=PrevChar,space=PrevCharIsSpace);           //Says is char prev is space or not
+    isChar(char=PrevChar,out=IsNotNull);                    //Allows me to know if there is data given in the input
+    Not(in=IsNotNull, out=PrevCharIsNull);                  //If char is null, this returns true
+    //----------
+
+    // Current char logic
+    IsSpace(char=char,space=space);
+    Not(in=space, out=CurrentCharIsNotSpace);
+
+    //----------
+    
+  
+    //If prev char is either null or space
+
+    Or(a=PrevCharIsNull, b=PrevCharIsSpace, out=PrevIsNotChar);
+
+    //---------
+
+    //And current char is not space
+
+    And(a=PrevIsNotChar, b=CurrentCharIsNotSpace, out=Counter);
+
+    //-------------
+
+    //If count is true and prev logic is true, we can add
+
+
+    And(a=count, b=Counter, out=CanWeAdd);
+
+    ///--------------------------
+    
+    IncRegister(inc=CanWeAdd,reset=reset,value=wordCount);
+
+}
+
+//Code that may be needed if this next thing dont work
+
+    //IDEA: when space is encountered, add to a register, this is space count. Space count = 0 when a letter/or non space char is met
+    //Only add to the wordcount if the space count is == 1, no less, no more
+
+
+    // IsSpace(char=char,space=space);                 //Is space boolean
+    // Not(in=space, out=NotSpace);                    //Is True when space is not
+    // And(a=count, b=SSSS, out=CountWords);
+    // Not(in=SpaceIs1, out=SSSS);
+    // IncRegister(inc=CountWords,reset=reset,value=wordCount);
+    // IncRegister(inc=space,reset=NotSpace,
+    
+    // value[0] = V0,
+    // value[1] = V1,
+    // value[2] = V2,
+    // value[3] = V3,
+    // value[4] = V4,
+    // value[5] = V5,
+    // value[6] = V6,
+    // value[7] = V7
+    
+    
+    // );     //Counts spaces
+
+    // // This section returns true IF and only IF the decimal number in SpaceCount is 1
+  
+    
+    // Not(in=V0, out=NV0); //Not the correct true bit so if the data is actually 1, the binary here will be 00000000
+    // //Or all the bits to let any 1's travel down the wire
+    // Or(a=NV0, b=V1, out=V01);
+    // Or(a=V2, b=V3, out=V23);
+    // Or(a=V4, b=V5, out=V45);
+    // Or(a=V5, b=V7, out=V67);
+    // //Or the ors before to allow bits to travel
+    // Or(a=V01, b=V23, out=V0123);
+    // Or(a=V45, b=V67, out=V4567);
+    // //Or the last parts to let any bits get to the end
+    // Or(a=V0123, b=V4567, out=SpaceHasDat);
+
+    // //If the binary is all 0 then it means we got the number we wanted, so Not the output to make it true
+    // Not(in=SpaceHasDat, out=SpaceIs1);

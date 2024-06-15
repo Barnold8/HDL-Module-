@@ -1,0 +1,28 @@
+CHIP Space32
+{
+	IN char[8];
+	OUT out;
+
+	PARTS: 
+    //Not the On bits      0010 0000
+    
+	Not(in=char[5], out=Not5);
+	
+
+	//or all the bits into sub section results
+
+	Or(a=char[0], b=char[1], out=OrA);
+	Or(a=char[2], b=char[3], out=OrB);
+	Or(a=char[4], b=Not5, out=OrC);
+	Or(a=char[6], b=char[7], out=OrD);
+
+	//or the subsections
+	Or(a=OrA, b=OrB, out=OrAB);
+	Or(a=OrC, b=OrD, out=orCD);
+
+	//or the final subsections
+	Or(a=OrAB, b=orCD, out=OrEND);
+
+	Not(in=OrEND, out=out);
+
+}

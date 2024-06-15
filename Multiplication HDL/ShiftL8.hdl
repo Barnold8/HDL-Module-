@@ -1,0 +1,58 @@
+CHIP ShiftL8
+{
+	IN  in[8], load;
+	OUT out[16];
+	
+	PARTS:
+	//--------------------------------------
+	Mux(a=false, b=in[0], sel=load, out=A);
+	DFF(in=A, out=out[0],out=Ax);
+
+	Mux(a=Ax, b=in[1], sel=load, out=B);
+	DFF(in=B, out=out[1],out=Bx);
+
+	Mux(a=Bx, b=in[2], sel=load, out=C);
+	DFF(in=C, out=out[2],out=Cx);
+
+	Mux(a=Cx, b=in[3], sel=load, out=D);
+	DFF(in=D, out=out[3],out=Dx);
+
+	Mux(a=Dx, b=in[4], sel=load, out=E);
+	DFF(in=E, out=out[4],out=Ex);
+
+	Mux(a=Ex, b=in[5], sel=load, out=F);
+	DFF(in=F, out=out[5],out=Fx);
+
+	Mux(a=Fx, b=in[6], sel=load, out=G);
+	DFF(in=G, out=out[6],out=Gx);
+
+	Mux(a=Gx, b=in[7], sel=load, out=H);
+	DFF(in=H, out=out[7],out=Hx);
+	//------------------------------------
+
+	Mux(a=Hx, b=false, sel=load, out=I);
+	DFF(in=I, out=out[8],out=Ix);
+
+	Mux(a=Ix, b=false, sel=load, out=J);
+	DFF(in=J, out=out[9],out=Jx);
+
+	Mux(a=Jx, b=false, sel=load, out=K);
+	DFF(in=K, out=out[10],out=Kx);
+
+	Mux(a=Kx, b=false, sel=load, out=L);
+	DFF(in=L, out=out[11],out=Lx);
+
+	Mux(a=Lx, b=false, sel=load, out=M);
+	DFF(in=M, out=out[12],out=Mx);
+
+	Mux(a=Mx, b=false, sel=load, out=N);
+	DFF(in=N, out=out[13],out=Nx);
+
+	Mux(a=Nx, b=false, sel=load, out=O);
+	DFF(in=O, out=out[14],out=Ox);
+
+	Mux(a=Ox, b=false, sel=load, out=P);
+	DFF(in=P, out=out[15],out=Px);
+
+
+}

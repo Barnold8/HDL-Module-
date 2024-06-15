@@ -1,0 +1,11 @@
+CHIP Test{
+
+    IN in;
+    OUT out;
+
+    PARTS:
+
+        DFF(in=in, out=out);
+
+
+}

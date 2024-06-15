@@ -1,0 +1,28 @@
+CHIP isZero
+{
+    IN in[8];
+    OUT zero;
+
+PARTS:
+
+    Or(a=in[0], b=in[1], out=ax);
+    Or(a=in[2], b=in[3], out=bx);
+    Or(a=in[4], b=in[5], out=cx);
+    Or(a=in[6], b=in[7], out=dx);
+
+    Or(a=ax, b=bx, out=aax);
+    Or(a=cx, b=dx, out=bbx);
+
+    Or(a=aax, b=bbx, out=out);
+
+    Not(in=out, out=zero);
+    
+
+   
+    
+
+
+    
+
+
+}

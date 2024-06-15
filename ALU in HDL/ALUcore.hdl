@@ -1,0 +1,116 @@
+CHIP ALUcore //sums,  ands,  xors,  ors,  and  srs are control signals  
+{
+	IN a[8], b[8], carryIn, sums, ands, xors, ors,srs, nDb, zeroA;
+	OUT out[8],carryOut;
+
+PARTS:
+
+	//INPUT MODIFIERS
+
+		// If  zeroA  is  1  (true),  a  should  be replaced by all zeroes, otherwise if zeroA is 0 (false), a should be left unchanged.
+		Mux8(a=a, b=false, sel=zeroA, out=NewA);
+		//And, if nDb is 1, each bit of b should be inverted otherwise if nDb is 0, b should be left unchanged. 
+		Not8(in=b, out=notB);
+		Mux8(a=b, b=notB,sel=nDb,out=NewB);
+
+	//-------------------------------------------
+
+
+
+	// 	The srs signal is slight different, this should select that the output of the ALU, should be the a 
+	//	input shifted to the right (using the supplied Shift8), the b input should be ignored in this case
+
+	//Modifiers
+	Shift8(in=NewA,out=shiftedA);
+
+	Or8(a=NewA,b=NewB,out=orOut);
+
+	Xor8(a=NewA,b=NewB,out=XorOut);
+
+	And8(a=NewA,b=NewB,out=AndOut);
+
+	Add8C(a=NewA,b=NewB,carryIn=carryIn,out=Added8,carryOut=TrueCarry);
+
+	// Mux(a=false, b=TrueCarry, sel=sums, out=carryOut);		//If no addition is made, then carryout should be 0
+	And(a=sums, b=TrueCarry, out=carryOut);
+
+	//-------------------------------------------
+
+	//Decision making subsection
+
+
+	//NOR(i3,i2) | OR (i2,i0) 
+
+	Or(a=xors, b=ors, out=XorsOrs);
+	Not(in=XorsOrs, out=NotXorsOrs);
+
+	Or(a=ors, b=sums, out=OrsSums);
+
+	
+	//-----------------------
+	
+	Mux4Way16(a[0..7]=XorOut, b[0..7]=AndOut, c[0..7]=orOut, d[0..7]=Added8, sel[0]=NotXorsOrs,sel[1]=OrsSums,out[0..7]=selOut);
+
+	Or(a=sums, b=ands, out=sumands);
+	Or(a=xors,b=ors,out=xorors);
+	Or(a=sumands,b=xorors,out=endsel);
+
+	Mux8(a=false,b=selOut,sel=endsel,out=OriginalOut);
+
+	Mux8(a=OriginalOut,b=shiftedA,sel=srs,out=out);
+
+	//--------------------------------------------
+
+
+
+}
+
+//Check list
+
+
+// Check if all work as intended
+
+// SRS									- Works
+// ZeroA								- Works
+// NdB - invert bits of B when true		- Works
+// CarryOut								- Works
+// sums									- Works
+// and									- Problem in test
+// xors									- Works
+// ors									- Works
+
+
+
+
+// Code GraveYard
+
+	//Add register
+	// Register8(in=Added8,load=true, out=AddReg);
+
+	// //--------------------------------------------
+
+	// //OR register
+	// Register8(in=orOut, load=true, out=OrReg);
+
+	// //--------------------------------------------
+
+	// //XOR register
+	// Register8(in=XorOut, load=true, out=XorReg);
+
+	// //--------------------------------------------
+
+	// //And register
+	// Register8(in=AndOut, load=true, out=AndReg);
+
+	//--------------------------------------------
+
+	// Mux(a=sums, b=ands, sel=, out=);
+
+	//XOr = 0 | or = 1 | and = 2 | add = 3
+	//Sums,  ands,  xors,  ors,
+
+	//All of values to add to register to determine sel in mux4way
+	
+	//------------------------------
+
+

@@ -1,0 +1,40 @@
+CHIP ShiftR8
+{
+	IN in[8],load;
+	OUT out[8];
+
+	PARTS:
+
+
+	//When load is false: the shift is made
+
+	//A gate to decide if the bits shift. The in on DFF could be the bit previously
+
+	//Shifter
+	Mux(a=false, b=in[7], sel=load, out=A);
+	DFF(in=A, out=out[7],out=Ax);
+
+	Mux(a=Ax, b=in[6], sel=load, out=B);
+	DFF(in=B, out=out[6],out=Bx);
+
+	Mux(a=Bx, b=in[5], sel=load, out=C);
+	DFF(in=C, out=out[5],out=Cx);
+
+	Mux(a=Cx, b=in[4], sel=load, out=D);
+	DFF(in=D, out=out[4],out=Dx);
+
+	Mux(a=Dx, b=in[3], sel=load, out=E);
+	DFF(in=E, out=out[3],out=Ex);
+
+	Mux(a=Ex, b=in[2], sel=load, out=F);
+	DFF(in=F, out=out[2],out=Fx);
+
+	Mux(a=Fx, b=in[1], sel=load, out=G);
+	DFF(in=G, out=out[1],out=Gx);
+
+	Mux(a=Gx, b=in[0], sel=load, out=H);
+	DFF(in=H, out=out[0],out=Hx);
+
+
+
+}

@@ -1,0 +1,17 @@
+CHIP CountLines
+{
+   	IN reset, char[8], count;
+    OUT lineCount[16];
+
+    PARTS:
+
+    //Detect char (im assuming if char has any data?) 
+    IsNewline(char=char,newline=F);
+
+    //Is true if there is a character and count is true
+    And(a=F, b=count, out=FCount);
+
+
+    IncRegister(reset=reset,inc=FCount,value=lineCount);
+
+}

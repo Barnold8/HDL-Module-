@@ -1,0 +1,12 @@
+CHIP isNegative
+{
+    IN in[8];
+    OUT neg;
+
+PARTS:
+
+    Mux(a=true, b=false, sel=in[7], out=out);
+    Not(in=out, out=neg);
+
+
+}

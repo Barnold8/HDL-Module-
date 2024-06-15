@@ -1,0 +1,21 @@
+CHIP IncRegister
+{
+    IN reset, inc;
+    OUT value[16];
+
+    PARTS: 
+
+    //If inc is 1, add to register
+
+    Mux(a=false, b=true, sel=inc, out=MuxAdd);
+    Mux16(a=F, b=false, sel=reset, out=ResetOut);
+
+    Add16(a=RegOut, b[0]=MuxAdd, out=F);
+
+    Register(in=ResetOut, load=true, out=RegOut,out=value);
+
+    //If reset is 1, reset the register
+
+
+
+}

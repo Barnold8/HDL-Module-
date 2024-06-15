@@ -1,0 +1,20 @@
+CHIP CountCharacters
+{
+   	IN reset, char[8], count;
+    OUT charCount[16];
+
+    PARTS: //If count is true, add to the char count if a char is found
+
+    //Detect char (im assuming if char has any data?) 
+    isChar(char=char,out=F);
+
+    //Is true if there is a character and count is true
+    And(a=F, b=count, out=FCount);
+
+
+    IncRegister(reset=reset,inc=FCount,value=charCount);
+
+
+
+
+}
